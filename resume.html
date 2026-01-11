@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanukunta Greeshma Reddy - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-color: #f8f9fa;
+            --container-bg: white;
+            --text-color: #333;
+            --primary-color: #007bff;
+            --secondary-color: #28a745;
+            --section-bg: #e8f4fd;
+            --item-bg: #f8f9fa;
+            --shadow: 0 0 20px rgba(0,0,0,0.1);
+            --border-color: #007bff;
+            --text-secondary: #666;
+        }
+        
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --container-bg: #2d2d2d;
+            --text-color: #e4e4e4;
+            --primary-color: #4da6ff;
+            --secondary-color: #4caf50;
+            --section-bg: #2a4158;
+            --item-bg: #3a3a3a;
+            --shadow: 0 0 20px rgba(255,255,255,0.1);
+            --border-color: #4da6ff;
+            --text-secondary: #b0b0b0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(180deg);
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--container-bg);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+        
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            animation: slideDown 0.6s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .name {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .name:hover {
+            transform: scale(1.05);
+        }
+        
+        .contact {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--section-bg);
+            padding: 10px 15px;
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .contact-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .contact-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.4s; }
+        .section:nth-child(4) { animation-delay: 0.6s; }
+        .section:nth-child(5) { animation-delay: 0.8s; }
+        .section:nth-child(6) { animation-delay: 1s; }
+        .section:nth-child(7) { animation-delay: 1.2s; }
+        
+        @keyframes fadeInUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .section-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            border-left: 4px solid var(--border-color);
+            padding-left: 15px;
+            cursor: pointer;
+            position: relative;
+            transition: padding-left 0.3s ease;
+        }
+        
+        .section-title:hover {
+            padding-left: 20px;
+        }
+        
+        .section-title::after {
+            content: '▼';
+            position: absolute;
+            right: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .section.collapsed .section-title::after {
+            transform: rotate(-90deg);
+        }
+        
+        .section-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+        }
+        
+        .section.collapsed .section-content {
+            max-height: 0;
+            opacity: 0;
+        }
+        
+        .profile {
+            background: var(--section-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile:hover {
+            transform: scale(1.02);
+        }
+        
+        .experience-item, .education-item, .project-item, .certification-item {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-left: 3px solid var(--secondary-color);
+            background: var(--item-bg);
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .experience-item:hover, .education-item:hover, .project-item:hover, .certification-item:hover {
+            transform: translateX(5px);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .item-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            color: var(--text-color);
+        }
+        
+        .item-subtitle {
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        
+        .bullet-points {
+            margin-left: 20px;
+        }
+        
+        .bullet-points li {
+            margin-bottom: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .bullet-points li:hover {
+            transform: translateX(5px);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .skill-category {
+            background: var(--section-bg);
+            padding: 15px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-title {
+            font-weight: bold;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .skill-bar {
+            margin: 10px 0;
+            opacity: 0;
+            animation: fillBar 1.5s ease-out forwards;
+        }
+        
+        @keyframes fillBar {
+            to {
+                opacity: 1;
+            }
+        }
+        
+        .skill-progress {
+            background: var(--bg-color);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+        
+        .skill-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0;
+            border-radius: 4px;
+            animation: fillProgress 1s ease-out forwards;
+        }
+        
+        @keyframes fillProgress {
+            to {
+                width: var(--skill-level);
+            }
+        }
+        
+        .nav-menu {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: var(--container-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            z-index: 999;
+        }
+        
+        .nav-menu button {
+            display: block;
+            width: 100%;
+            padding: 8px 12px;
+            margin: 5px 0;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .nav-menu button:hover {
+            background: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .contact {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .name {
+                font-size: 2em;
+            }
+            
+            .nav-menu {
+                right: 10px;
+                top: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+    
+    <div class="nav-menu">
+        <button onclick="scrollToSection('profile')">Profile</button>
+        <button onclick="scrollToSection('experience')">Experience</button>
+        <button onclick="scrollToSection('education')">Education</button>
+        <button onclick="scrollToSection('projects')">Projects</button>
+        <button onclick="scrollToSection('certifications')">Certifications</button>
+        <button onclick="scrollToSection('skills')">Skills</button>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="name">KANUKUNTA GREESHMA REDDY</div>
+            <div class="contact">
+                <div class="contact-item">
+                    <span>📞</span> (+91) 9963235045
+                </div>
+                <div class="contact-item">
+                    <span>✉️</span> Kanukuntagreeshma22@ifheindia.org
+                </div>
+                <div class="contact-item">
+                    <span>🔗</span> 
+                    <a href="https://linkedin.com/in/greeshma-reddy-kanukunta-08512a280" target="_blank">
+                        LinkedIn Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="profile">
+            <div class="section-title" onclick="toggleSection(this)">Profile</div>
+            <div class="section-content">
+                <div class="profile">
+                    Highly motivated Electrical and Electronics Engineering student with strong analytical and practical skills. Proficient in electrical engineering design, applications, and electronic tools/software. Eager to apply theoretical knowledge in real-world settings and contribute to innovative electronic systems.
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="experience">
+            <div class="section-title" onclick="toggleSection(this)">Experience</div>
+            <div class="section-content">
+            
+            <div class="experience-item">
+                <div class="item-title">Intern – Lernex</div>
+                <div class="item-subtitle">Hyderabad | Jan 2023 – Mar 2023</div>
+                <ul class="bullet-points">
+                    <li>Worked with the HR and marketing team on talent engagement and client outreach activities.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="item-title">Intern – Medintu</div>
+                <div class="item-subtitle">Hyderabad | May 2024 – Aug 2024</div>
+                <ul class="bullet-points">
+                    <li>Contributed to healthcare tech projects, gaining exposure to professional workflows, exposure to data security, cloud platforms, and healthcare workflows.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="item-title">ASIC Design & Implementation Program (4 Weeks)</div>
+                <div class="item-subtitle">Hyderabad | May 2025 – Jun 2025</div>
+                <ul class="bullet-points">
+                    <li>Designed and simulated digital circuits using Verilog HDL on Cadence Virtuoso and Synopsys IC Compiler.</li>
+                    <li>Applied industry workflows in physical design: floor planning, placement, routing, and DRC checks.</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="item-title">VLSI for Beginners – NIELT, Calicut</div>
+                <div class="item-subtitle">September 2025 (5 Days, Online)</div>
+                <ul class="bullet-points">
+                    <li>Successfully completed a certified program on VLSI Design Fundamentals</li>
+                    <li>Learned semiconductor device basics, digital logic design, and RTL concepts.</li>
+                    <li>Exposure to ASIC/FPGA workflows, circuit simulation, and industry-standard design tools.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="education">
+            <div class="section-title" onclick="toggleSection(this)">Education</div>
+            <div class="section-content">
+            
+            <div class="education-item">
+                <div class="item-title">Bachelor of Technology, Electrical and Electronics Engineering</div>
+                <div class="item-subtitle">ICFAI Foundation for Higher Education, Hyderabad | 2022 – 2026 | CGPA: 6.7 (Pursuing)</div>
+            </div>
+
+            <div class="education-item">
+                <div class="item-title">Higher Education (XII)</div>
+                <div class="item-subtitle">Sri-Abhidha | 2021 – 2022 | CGPA: 8.75</div>
+            </div>
+
+            <div class="education-item">
+                <div class="item-title">Secondary Education (X)</div>
+                <div class="item-subtitle">Slate-The-School | 2020 | CGPA: 10</div>
+            </div>
+        </div>
+
+        <div class="section" id="projects">
+            <div class="section-title" onclick="toggleSection(this)">Projects</div>
+            <div class="section-content">
+            
+            <div class="project-item">
+                <div class="item-title">ASIC Design and Implementation using industrial standard EDA tools (Mini Project)</div>
+                <ul class="bullet-points">
+                    <li>Designed a I2C digital circuit using Verilog HDL and verified functionality through ModelSim simulation.</li>
+                    <li>Synthesized the RTL into gate-level netlists using Design Compiler, followed by placement, routing, and CTS in IC Compiler.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="item-title">A VLSI Implementation of Train Collision Avoidance System using Verilog HDL</div>
+                <ul class="bullet-points">
+                    <li>Developed a Verilog HDL model for a safety-critical train collision detection and prevention system.</li>
+                    <li>Simulated the design using ModelSim and verified logic functionality under test cases.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="item-title">ASIC & FPGA Design Fundamentals</div>
+                <ul class="bullet-points">
+                    <li>Applied knowledge gained from NIELIT's VLSI for Beginners program to understand RTL-to-GDS flow, logic synthesis, and testing strategies.</li>
+                    <li>Explored Verilog HDL for simple design modules and simulation.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="item-title">VLSI System on Chip Design – Overview | September 2025</div>
+                <ul class="bullet-points">
+                    <li>Designed and analysed basic SoC architecture components.</li>
+                    <li>Implemented small-scale RTL modules and verified using simulation tools.</li>
+                    <li>Studied synthesis and timing optimization steps for SoC design.</li>
+                </ul>
+            </div>
+
+            <div class="project-item">
+                <div class="item-title">Foundation – Physical Design | September 2025</div>
+                <ul class="bullet-points">
+                    <li>Gained foundational knowledge of VLSI physical design flow from netlist to GDSII.</li>
+                    <li>Learned about floor planning, placement, clock tree synthesis (CTS), and routing.</li>
+                    <li>Explored EDA tools used in backend design (e.g., Cadence, Synopsys).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="certifications">
+            <div class="section-title" onclick="toggleSection(this)">Certifications</div>
+            <div class="section-content">
+                <ul class="bullet-points">
+                    <li>One Day Workshop on 3D Printing – ICFAI Tech</li>
+                    <li>Mobile App Development & Chatbot Building – ICFAI Tech</li>
+                    <li>Industrial Embedded Systems & IoT – ICFAI Tech</li>
+                    <li>MATLAB Onramp & Simulation Onramp</li>
+                    <li>Advanced Antenna Technologies for Sensing & Imaging Applications – ICFAI Tech</li>
+                    <li>Exploring Data Analysis – IT NASSCOM</li>
+                    <li>AWS APAC Solutions Architecture Virtual Experience (Forage)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section" id="skills">
+            <div class="section-title" onclick="toggleSection(this)">Technical Skills</div>
+            <div class="section-content">
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <div class="skill-title">Programming & Design</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 85%; animation-delay: 0.1s;"></div>
+                            </div>
+                            <small>PLC Programming - 85%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 80%; animation-delay: 0.2s;"></div>
+                            </div>
+                            <small>MATLAB Simulation - 80%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 75%; animation-delay: 0.3s;"></div>
+                            </div>
+                            <small>Arduino Programming - 75%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 70%; animation-delay: 0.4s;"></div>
+                            </div>
+                            <small>Python, C, C++ - 70%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 85%; animation-delay: 0.5s;"></div>
+                            </div>
+                            <small>Digital Logic Design - 85%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 80%; animation-delay: 0.6s;"></div>
+                            </div>
+                            <small>RTL Design & Simulation - 80%</small>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <div class="skill-title">EDA Tools</div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 75%; animation-delay: 0.7s;"></div>
+                            </div>
+                            <small>Cadence - 75%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 80%; animation-delay: 0.8s;"></div>
+                            </div>
+                            <small>ModelSim - 80%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 70%; animation-delay: 0.9s;"></div>
+                            </div>
+                            <small>Xilinx - 70%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 75%; animation-delay: 1.0s;"></div>
+                            </div>
+                            <small>IC Compiler - 75%</small>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress">
+                                <div class="skill-fill" style="--skill-level: 75%; animation-delay: 1.1s;"></div>
+                            </div>
+                            <small>DC Compiler - 75%</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeButton = document.querySelector('.theme-toggle');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeButton.textContent = '🌙';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeButton.textContent = '☀️';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        function toggleSection(sectionTitle) {
+            const section = sectionTitle.parentElement;
+            section.classList.toggle('collapsed');
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                
+                // Add highlight effect
+                section.style.backgroundColor = 'var(--primary-color)';
+                section.style.color = 'white';
+                setTimeout(() => {
+                    section.style.backgroundColor = '';
+                    section.style.color = '';
+                }, 1000);
+            }
+        }
+
+        // Initialize theme from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeButton = document.querySelector('.theme-toggle');
+            
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeButton.textContent = '☀️';
+            }
+
+            // Add typing animation to name
+            const nameElement = document.querySelector('.name');
+            const originalText = nameElement.textContent;
+            nameElement.textContent = '';
+            let charIndex = 0;
+            
+            function typeWriter() {
+                if (charIndex < originalText.length) {
+                    nameElement.textContent += originalText.charAt(charIndex);
+                    charIndex++;
+                    setTimeout(typeWriter, 100);
+                }
+            }
+            
+            setTimeout(typeWriter, 500);
+
+            // Add interactive hover effects for contact items
+            const contactItems = document.querySelectorAll('.contact-item');
+            contactItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                });
+            });
+
+            // Add progress bar animations when scrolling
+            const observerOptions = {
+                threshold: 0.5,
+                rootMargin: '0px 0px -100px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.skill-fill');
+                        skillBars.forEach(bar => {
+                            bar.style.animation = 'fillProgress 1s ease-out forwards';
+                        });
+                    }
+                });
+            }, observerOptions);
+
+            const skillsSection = document.getElementById('skills');
+            if (skillsSection) {
+                observer.observe(skillsSection);
+            }
+        });
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'd' || e.key === 'D') {
+                toggleTheme();
+            }
+            
+            if (e.key >= '1' && e.key <= '6') {
+                const sections = ['profile', 'experience', 'education', 'projects', 'certifications', 'skills'];
+                const index = parseInt(e.key) - 1;
+                if (sections[index]) {
+                    scrollToSection(sections[index]);
+                }
+            }
+        });
+
+        // Add smooth reveal for list items
+        const listItems = document.querySelectorAll('.bullet-points li');
+        listItems.forEach((item, index) => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateX(-20px)';
+            item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            
+            setTimeout(() => {
+                item.style.opacity = '1';
+                item.style.transform = 'translateX(0)';
+            }, 100 * (index + 1));
+        });
+    </script>
+</body>
+</html>
